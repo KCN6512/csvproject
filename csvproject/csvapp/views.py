@@ -53,8 +53,9 @@ def parse(request):
     with open('csvapp/static/upload/books.csv') as f:
             reader = csv.reader(f,delimiter=';')
             counter = 0
+            temp_data = []
             for row in reader:
-                _, created = CsvModel.objects.get_or_create(
+                temp_data.append(CsvModel(
                 ISBN=row[0] if row[0] != '' else None,
                 Book_Title=row[1] if row[1] != '' else None,
                 Book_Author=row[2] if row[2] != '' else None,
@@ -63,6 +64,10 @@ def parse(request):
                 Image_URL_S=row[5] if row[5] != '' else None,
                 Image_URL_M=row[6] if row[6] != '' else None,
                 Image_URL_L=row[7] if row[7] != '' else None,
-                )
+                ))
                 counter+=1
                 print(counter)
+            print('start bulk creation')
+            CsvModel.objects.bulk_create(temp_data,batch_size=10000)
+            print('finish bulk creation')
+    return HttpResponse('Greatly parsed to database')
