@@ -4,12 +4,14 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from csvapp.models import *
 from django.views.generic.base import *
+from csvapp.functions import handle_uploaded_file  
+from csvproject.csvapp.forms import UploadForm
 
 
 # Create your views here.
 
-class CsvToModel(TemplateView):
-    template_name = 'home.html'
+#class CsvToModel(TemplateView):
+    #template_name = 'home.html'
     # def post(self, request):
     #     with open('mpathtofile') as f:
     #         reader = csv.reader(f)
@@ -36,3 +38,13 @@ class CsvToModel(TemplateView):
     #             credits_balance=row[7],
     #             )   
     #         #bulk_create(batch_size=10000)
+
+def index(request):  
+    if request.method == 'POST':  
+        file = UploadForm(request.POST, request.FILES)  
+        if file.is_valid():  
+            handle_uploaded_file(request.FILES['file'])  
+            return HttpResponse("File uploaded successfuly")  
+    else:  
+        file = UploadForm()  
+        return render(request,"home.html",{'form':file})  

@@ -3,5 +3,5 @@ from .views import *
 
 
 urlpatterns = [
-    path('',CsvToModel.as_view(),name='home'),
+    path('home/',index,name='home'),
 ]
