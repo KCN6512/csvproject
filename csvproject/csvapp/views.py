@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from csvapp.models import *
 from django.views.generic.base import *
+from django.views.generic.list import *
 from csvapp.functions import handle_uploaded_file  
 from csvapp.forms import UploadForm
 
@@ -71,3 +72,13 @@ def parse(request):
             CsvModel.objects.bulk_create(temp_data,batch_size=10000)
             print('finish bulk creation')
     return HttpResponse('Greatly parsed to database')
+
+class DataView(ListView):
+    model = CsvModel
+    template_name = 'data_list.html'
+
+    def get_queryset(self):
+        return CsvModel.objects.values('ISBN','Book_Title','Book_Author','Year_Of_Publication','Publisher')
+
+
+    
