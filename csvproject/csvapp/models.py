@@ -14,5 +14,5 @@ class CsvModel(models.Model):
     def __str__(self) -> str:
         return self.Book_Title
         
-#from csvapp.models import *
-#GETED, created = CsvModel.objects.get_or_create(ISBN=12356,Book_Title='JOPA')
+class FileUploadModel(models.Model):
+    file = models.FileField(upload_to='')

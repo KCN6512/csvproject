@@ -1,7 +1,8 @@
 import csv
 
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import redirect, render
+from django.urls import reverse_lazy
 from csvapp.models import *
 from django.views.generic.base import *
 from django.views.generic.list import *
@@ -40,15 +41,33 @@ from csvapp.forms import UploadForm
     #             )   
     #         #bulk_create(batch_size=10000)
 
-def index(request):  
-    if request.method == 'POST':  
-        file = UploadForm(request.POST, request.FILES)  
-        if file.is_valid():  
-            handle_uploaded_file(request.FILES['file'])  
-            return HttpResponse("File uploaded successfuly")  
-    else:  
-        file = UploadForm()  
-        return render(request,"home.html",{'form':file})  
+# def index(request):  
+#     if request.method == 'POST':  
+#         file = UploadForm(request.POST, request.FILES)  #file = form
+#         if file.is_valid():  
+#             handle_uploaded_file(request.FILES['file'])  
+#             return HttpResponse("File uploaded successfuly")  
+#     else:  
+#         file = UploadForm()  
+#         return render(request,"home.html",{'form':file})  
+
+class FileUploadView(View):
+    form_class = UploadForm
+    success_url = reverse_lazy('home')
+    template_name = 'home.html'
+
+    def get(self, request, *args, **kwargs):
+        form = self.form_class()
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            print(form.cleaned_data)
+            return redirect(self.success_url)
+        else:
+            return render(request, self.template_name, {'form': form})
 
 def parse(request):
     with open('csvapp/static/upload/books.csv') as f:
@@ -76,7 +95,8 @@ def parse(request):
 class DataView(ListView):
     model = CsvModel
     template_name = 'data_list.html'
-    paginate_by = 100
+    paginate_by = 100 # ?page=3
+    
     def get_queryset(self):
         return CsvModel.objects.values('ISBN','Book_Title','Book_Author','Year_Of_Publication','Publisher')
 
