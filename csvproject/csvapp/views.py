@@ -5,7 +5,7 @@ from django.shortcuts import render
 from csvapp.models import *
 from django.views.generic.base import *
 from csvapp.functions import handle_uploaded_file  
-from csvproject.csvapp.forms import UploadForm
+from csvapp.forms import UploadForm
 
 
 # Create your views here.
