@@ -27,7 +27,7 @@ class FileUploadView(View):
         else:
             return render(request, self.template_name, {'form': form})
 
-class Parse(View):
+class ParseView(View):
     template_name = 'parse.html'
 
     def get(self, request, *args, **kwargs):
