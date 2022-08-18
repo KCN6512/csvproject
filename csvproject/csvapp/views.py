@@ -64,7 +64,7 @@ class Parse(View):
 class DataView(ListView):
     model = CsvModel
     template_name = 'data_list.html'
-    paginate_by = 100 # ?page=3
+    paginate_by = 1000 # ?page=3
     
     def get_queryset(self):
         return CsvModel.objects.values('ISBN','Book_Title','Book_Author','Year_Of_Publication','Publisher')
