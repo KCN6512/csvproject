@@ -7,7 +7,7 @@ from csvapp.models import *
 from django.views.generic.base import *
 from django.views.generic.list import *
 from csvapp.forms import UploadForm
-
+import os
 
 class FileUploadView(View):
     form_class = UploadForm
@@ -22,6 +22,7 @@ class FileUploadView(View):
         form = self.form_class(request.POST, request.FILES)
         if form.is_valid():
             form.save()
+            print('ОТПРАВКА',request.FILES)
             return redirect(self.success_url)
         else:
             return render(request, self.template_name, {'form': form})
@@ -30,10 +31,15 @@ class Parse(View):
     template_name = 'parse.html'
 
     def get(self, request, *args, **kwargs):
-        return render(request,'parse.html')
+        context = {}
+        for filename in os.listdir("media"):
+            context[str(filename)] = filename 
+        print(context)
+        return render(request,'parse.html',{'files':context})
 
     def post(self, request, *args, **kwargs):
-        with open('csvapp/static/upload/books.csv') as f:
+        selected_file = request.POST['selected']
+        with open(f'media/{selected_file}') as f:
                 reader = csv.reader(f,delimiter=';')
                 counter = 0
                 temp_data = []
