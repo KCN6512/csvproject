@@ -3,5 +3,6 @@
             {% csrf_token %}  
             {{ form.as_p }}  
             <button type="submit" class="save btn btn-default">Save</button>  
+            <p><a href="{% url 'parse' %}">Страница отправки в базу</a></p>
     </form>  
     </body>  

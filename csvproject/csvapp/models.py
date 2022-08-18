@@ -2,7 +2,7 @@ from django.db import models
 
 # Create your models here.
 class CsvModel(models.Model):
-    ISBN = models.CharField(max_length=255,null=True)
+    ISBN = models.CharField(unique=True,max_length=255,null=True)
     Book_Title = models.CharField(max_length=255,null=True)
     Book_Author = models.CharField(max_length=255,null=True)
     Year_Of_Publication = models.CharField(max_length=255,null=True)
