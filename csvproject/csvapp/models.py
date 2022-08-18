@@ -15,4 +15,4 @@ class CsvModel(models.Model):
         return self.Book_Title
         
 class FileUploadModel(models.Model):
-    file = models.FileField(upload_to='')
+    file = models.FileField() #сохраняется в media
