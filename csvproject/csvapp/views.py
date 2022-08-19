@@ -55,7 +55,7 @@ class ParseView(View):
                     Image_URL_L=row[7] if row[7] != '' else None,
                     ))
                     counter+=1
-                    print(counter)
+                    print(counter)#принты много потребляют (убирать при работе)
                 print('start bulk creation')
                 CsvModel.objects.bulk_create(temp_data,batch_size=10000)
                 print('finish bulk creation')
