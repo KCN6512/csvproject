@@ -41,7 +41,7 @@ class ParseView(View):
         selected_file = request.POST['selected']
         with open(f'media/{selected_file}') as f:
                 reader = csv.reader(f,delimiter=';')
-                counter = 0
+                #counter = 0
                 temp_data = []
                 for row in reader:
                     temp_data.append(CsvModel(
@@ -54,8 +54,8 @@ class ParseView(View):
                     Image_URL_M=row[6] if row[6] != '' else None,
                     Image_URL_L=row[7] if row[7] != '' else None,
                     ))
-                    counter+=1
-                    print(counter)#принты много потребляют (убирать при работе)
+                    #counter+=1
+                    #print(counter)#принты много потребляют (убирать при работе)
                 print('start bulk creation')
                 CsvModel.objects.bulk_create(temp_data,batch_size=10000)
                 print('finish bulk creation')
