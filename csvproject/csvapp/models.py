@@ -1,5 +1,6 @@
 from django.db import models
 
+
 # Create your models here.
 class CsvModel(models.Model):
     ISBN = models.CharField(unique=True,max_length=255,null=True)

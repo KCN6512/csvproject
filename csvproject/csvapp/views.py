@@ -1,13 +1,14 @@
 import csv
+import os
 
+from csvapp.forms import UploadForm
+from csvapp.models import *
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
-from csvapp.models import *
 from django.views.generic.base import *
 from django.views.generic.list import *
-from csvapp.forms import UploadForm
-import os
+
 
 class FileUploadView(View):
     form_class = UploadForm
@@ -59,7 +60,7 @@ class ParseView(View):
                 print('start bulk creation')
                 CsvModel.objects.bulk_create(temp_data,batch_size=10000)
                 print('finish bulk creation')
-        return HttpResponse('Greatly parsed to database')
+        return HttpResponse('Greatly parsed to database')#почему то работает только в докере
 
 class DataView(ListView):
     model = CsvModel
