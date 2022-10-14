@@ -1,7 +1,6 @@
 <body>  
     <form method="POST" class="post-form">  
             {% csrf_token %}  
-            {{ form.as_p }}  
             <select name="selected">
                 {% for i in files %}
                 <option value="{{ i }}">'{{ i }}'</option>
